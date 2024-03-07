@@ -1,25 +1,6 @@
-
-markdown
-Copy code
 # PyThreadFuture
 
-PyThreadFuture is a Python class designed to simplify asynchronous task execution using ThreadPoolExecutor. This README provides detailed information on its features, usage, and example scenarios.
-
-## Table of Contents
-1. [Introduction](#introduction)
-2. [Features](#features)
-3. [Installation](#installation)
-4. [Usage](#usage)
-    - [Initialization](#initialization)
-    - [Decorators](#decorators)
-    - [Waiting for Results](#waiting-for-results)
-    - [Shutting Down](#shutting-down)
-5. [Example](#example)
-6. [License](#license)
-
-## Introduction
-
-Asynchronous programming is crucial for handling concurrent tasks efficiently. PyThreadFuture simplifies this process by providing decorator methods to execute functions in separate threads, along with utilities to manage and gather results from multiple asynchronous tasks.
+PyThreadFuture is a Python class that simplifies running tasks asynchronously using a ThreadPoolExecutor. It offers two decorator methods for executing functions in separate threads, along with methods for waiting for and retrieving results from multiple futures.
 
 ## Features
 
@@ -28,24 +9,12 @@ Asynchronous programming is crucial for handling concurrent tasks efficiently. P
 - **run_and_wait**: Method to wait for and retrieve results from multiple futures.
 - **shutdown**: Method to shut down the ThreadPoolExecutor, ensuring resource cleanup.
 
-## Installation
+## Usage
 
-PyThreadFuture can be installed via pip:
-
-```bash
-pip install pythreadfuture
-Usage
-Initialization
-Create an instance of PyThreadFuture:
-
-python
-Copy code
-from pythreadfuture import PyThreadFuture
-
+1. **Initialization**: Create an instance of `PyThreadFuture`.
+```python
 executor = PyThreadFuture()
-Decorators
-Use decorators to run functions asynchronously:
-
+Decorators: Use decorators to run functions asynchronously.
 python
 Copy code
 @executor.async_null_result
@@ -56,28 +25,20 @@ Copy code
 @executor.async_data_handler
 def task2():
     # Task logic here
-Waiting for Results
-Use run_and_wait to wait for multiple tasks to complete and gather their results:
-
+Wait for Results: Use run_and_wait to wait for multiple tasks to complete and gather their results.
 python
 Copy code
 future1 = task1()
 future2 = task2()
-results = executor.run_and_wait([future1, future2])
-print("Results:", results)
-Shutting Down
-Call shutdown when done to clean up resources:
-
+executor.run_and_wait([future1, future2])
+Shutdown: Call shutdown when done to clean up resources.
 python
 Copy code
 executor.shutdown()
 Example
-Below is an example demonstrating the usage of PyThreadFuture:
-
 python
 Copy code
 from time import sleep
-from pythreadfuture import PyThreadFuture
 
 executor = PyThreadFuture()
 
@@ -101,4 +62,4 @@ License
 This project is licensed under the MIT License. See the LICENSE file for details.
 
 Copy code
-This expanded README provides a comprehensive overview of PyThreadFuture, including installation instructions, detailed usage guidelines, an example scenario, and licensing information. It aims to assist users in understanding and effectively utilizing the provided functionality.
+This markdown file serves as a concise guide for users interested in leveraging the PyThreadFuture class for asynchronous task execution. It outlines the features, usage instructions, and provides an example for better understanding. Additionally, it includes licensing information for clarity on usage rights.
