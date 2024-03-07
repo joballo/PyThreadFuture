@@ -1,7 +1,6 @@
 from concurrent.futures import ThreadPoolExecutor, as_completed
 import functools
 import inspect
-from time import sleep
 
 class PyThreadFuture:
     """
@@ -79,62 +78,3 @@ class PyThreadFuture:
     def shutdown(self):
         """Shuts down the executor, freeing any resources."""
         self.executor.shutdown()
-
-# Example usage
-executor = PyThreadFuture()
-
-class A:
-    def __init__(self):
-        self.a = 10
-        self.b = 20
-
-    @executor.async_task_no_return
-    def test_function11(self):
-        sleep(10)  # Simulate a time-consuming operation
-        self.a = 100
-
-    @executor.async_task_no_return
-    def test_function12(self):
-        sleep(1)  # Simulate a time-consuming operation
-        self.b = 200
-
-
-
-# a=A()
-
-# # Now when you call test_function, it will run in a separate thread and the internal result_handler will process the result.
-# a.test_function11()
-# a.test_function12()
-
-# The main program continues immediately without waiting for test_function to complete.
-print("Continuing with the program...")
-
-@executor.async_data_handler
-def test_function1(a,b):
-    print("a")
-    sleep(10)  # Simulate a time-consuming operation
-    return a+b
-
-@executor.async_data_handler
-def test_function2(a,b):
-    print("b")
-    sleep(1)  # Simulate a time-consuming operation
-    return a+b
-
-# Submit tasks to the executor
-future1 = test_function1(5, 100)
-future2 = test_function2(5, 1000)
-
-# Wait for all submitted tasks to complete and get their results
-result = executor.run_and_wait([future1, future2])
-print(result)
-executor.shutdown()
-
-
-# # Assuming this code is in a module or script
-# decorated_functions = executor.get_decorated_functions(__import__(__name__))
-# print(decorated_functions)
-
-
-
-
