@@ -11,11 +11,35 @@ PyThreadFuture is a Python class that simplifies running tasks asynchronously us
 
 ## Usage
 
+# PyThreadFuture Usage Examples
+
+This README provides detailed examples of using the PyThreadFuture library to execute asynchronous tasks in Python.
+
+## Overview
+
+PyThreadFuture simplifies asynchronous task execution by providing decorators for running functions in separate threads. It also offers utilities for managing and gathering results from multiple asynchronous tasks.
+
+## Installation
+
+First, install the PyThreadFuture library using pip:
+
+```bash
+pip install PyThreadFuture
+Usage
+Initialization
+Initialize the PyThreadFuture executor at the top of your file:
+
+python
+Copy code
 from time import sleep
 from PyThreadFuture import PyThreadFuture
-# Initilaize the PyThreadFuture at the top of the file
-executor = PyThreadFuture()
 
+executor = PyThreadFuture()
+Class Methods
+You can use PyThreadFuture with class methods. Here's an example:
+
+python
+Copy code
 class TestingClass:
     def __init__(self):
         self.a = 10
@@ -27,71 +51,39 @@ class TestingClass:
         sleep(10)  # Simulate a time-consuming operation
         self.a = 100
 
-    @executor.async_null_result
-    def test_function2(self):
-        print(f"Class test_function2 async_null_result")
-        sleep(1)  # Simulate a time-consuming operation
-        self.b = 200
+    # Other class methods...
 
-    @executor.async_data_handler
-    def test_function3(self):
-        print(f"Class test_function3 async_data_handler")
-        sleep(15)  # Simulate a time-consuming operation
-        return self.a
+testing_class = TestingClass()
 
-    @executor.async_data_handler
-    def test_function4(self):
-        print(f"Class test_function4 async_data_handler")
-        sleep(2)  # Simulate a time-consuming operation
-        return self.b
-
-testingclass=TestingClass()
-
-testingclass.test_function1()
-testingclass.test_function2()
-
-# The main program continues immediately without waiting for test_function to complete.
+testing_class.test_function1()
+# Continue immediately without waiting for test_function to complete.
 print("Continuing after class method with async_null_result...")
 
-instance_future1 = testingclass.test_function3()
-instance_future2 = testingclass.test_function4()
+# Submit tasks to the executor
+instance_future1 = testing_class.test_function3()
+instance_future2 = testing_class.test_function4()
 
 # Wait for all submitted tasks to complete and get their results
 result = executor.run_and_wait([instance_future1, instance_future2])
 print(f"Class instance result:{result}")
-# The main program continues immediately without waiting for test_function to complete.
+# Continue immediately without waiting for class methods to complete.
 print("Continuing after class methods...")
-print() # Print empty
+Standalone Functions
+You can also use PyThreadFuture with standalone functions:
 
-
+python
+Copy code
 @executor.async_null_result
-def test_function1(a,b):
-    print(f"test_function1 async_data_handler")
+def test_function1(a, b):
+    print(f"test_function1 async_null_result")
     sleep(10)  # Simulate a time-consuming operation
-    return a+b
+    return a + b
 
-@executor.async_null_result
-def test_function2(a,b):
-    print(f"test_function2 async_data_handler")
-    sleep(1)  # Simulate a time-consuming operation
-    return a+b
-
-@executor.async_data_handler
-def test_function3(a,b):
-    print(f"test_function3 async_data_handler")
-    sleep(15)  # Simulate a time-consuming operation
-    return a+b
-
-@executor.async_data_handler
-def test_function4(a,b):
-    print(f"test_function4 async_data_handler")
-    sleep(4)  # Simulate a time-consuming operation
-    return a+b
-
+# Other functions...
 
 test_function1(10, 10)
-test_function2(20, 20)
-print("Continuing after fuction call with async_null_result...")
+# Continue immediately without waiting for function call to complete.
+print("Continuing after function call with async_null_result...")
 
 # Submit tasks to the executor
 future3 = test_function3(30, 30)
@@ -100,10 +92,12 @@ future4 = test_function4(40, 40)
 # Wait for all submitted tasks to complete and get their results
 result = executor.run_and_wait([future3, future4])
 print(result)
+Shutdown
+Don't forget to shut down the executor to release resources:
 
-# This must be added to release resouces.
+python
+Copy code
 executor.shutdown()
-
 License
 This project is licensed under the MIT License. See the LICENSE file for details.
 
